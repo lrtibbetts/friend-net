@@ -7,7 +7,6 @@
     2. Negate all weights
     3. Run shortest path algorithm (probably Dijkstra's)
 
-
     Killer feature ideas:
     1. Best mutual friend: given two users, user A and user B, find the "best" mutual friend
     
