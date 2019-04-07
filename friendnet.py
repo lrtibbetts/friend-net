@@ -1,3 +1,32 @@
+'''
+    Friend Net
+    Katrina Baber and Lucy Tibbetts
+
+    Best Friend Chain idea
+    1. Convert graph to DAG
+    2. Negate all weights
+    3. Run shortest path algorithm (probably Dijkstra's)
+
+
+    Killer feature ideas:
+    1. Best mutual friend: given two users, user A and user B, find the "best" mutual friend
+    
+    Algorithm:
+    First, we will calculate all mutual friends, i.e. users who are in the friend lists for both users.
+    Second, we will calculate a friendliness sum for each mutual friend (user C). The friendliness sum will be
+    comprised of how much user A likes user C, how much user B likes user C, how much user C likes user A, and
+    how much user C likes user B
+
+    2. Distance from everyone, i.e. print out a list of a user's 1st, 2nd, 3rd, etc. connections, where 1st means
+    they are direct friends, 2nd means they have a mutual friend, 3rd means they are two friends removed, and so on
+    * This feature would require us to traverse the whole graph
+    
+    Algorithm:
+    Find the shortest path between the given user and each other user. We will likely use Dijkstra's shortest path
+    algorithm for these calculations. Then, output the connections by level, e.g. 1st, 2nd, 3rd, where 1st indicates
+    a path length of 1, 2nd indicates a path length of 2, etc. 
+
+'''
 
 def read_file():
     friend_file = open('friends.txt', 'r')
