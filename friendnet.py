@@ -3,6 +3,11 @@
     Katrina Baber and Lucy Tibbetts
 
     Best Friend Chain idea
+    Idea from Dr. Schroeder:
+    1. Convert weights, e.g. 10 minus the weight
+    2. Use Dijkstra's
+
+    Our initial idea:
     1. Convert graph to DAG
     2. Negate all weights
     3. Run shortest path algorithm (probably Dijkstra's)
