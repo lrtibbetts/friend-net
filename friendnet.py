@@ -80,8 +80,8 @@ def best_friend_chain(friends_dict):
     print("Please enter the second user's name: ")
     user_2 = input()
 
-    
     # implement dijkstra's
+    # resource: https://medium.com/basecs/finding-the-shortest-path-with-a-little-help-from-dijkstra-613149fbdc8e
     visited = [] 
     unvisited = []
     distance_vals = {} # store distances as we build potential paths
