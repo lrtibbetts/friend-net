@@ -98,15 +98,13 @@ def best_friend_chain(friends_dict):
     # set user_1 distance to 0
     distance_vals[user_1] = [0, user_1]
    
-    print(distance_vals)
+    # TODO: modify algorithm to handle the case where a path doesn't exist
     while user_2 not in visited:
         # select node with minimum distance from distance_vals
         min_dist_node = min(filter(lambda val: val in unvisited, distance_vals), 
         key=lambda val: distance_vals[val][0])
-        print(min_dist_node)
         # calculate distance for adjacent nodes
         adjacent_nodes = friends_dict[min_dist_node]
-        print(adjacent_nodes)
         for node in adjacent_nodes:
             if node in unvisited:
                 dist = distance_vals[min_dist_node][0] + adjacent_nodes[node]
@@ -116,8 +114,14 @@ def best_friend_chain(friends_dict):
         # move node from unvisited to visited
         visited.append(min_dist_node)
         unvisited.remove(min_dist_node)
-    print(distance_vals)
-    # TODO: based on data stored in distance_vals, construct 'best friend chain'
+
+    # based on data stored in distance_vals, construct 'best friend chain'
+    path = [user_2]
+    current_user = user_2
+    while current_user != user_1:
+        current_user = distance_vals[current_user][1]
+        path.append(current_user)
+    print("Best friend chain: " + str(path))
 
 def main():
     friends_dict = read_file()
