@@ -1,3 +1,5 @@
+import sys
+
 '''
     Friend Net
     Katrina Baber and Lucy Tibbetts
@@ -72,20 +74,66 @@ def look_up_relationship(friends_dict):
     else:
         print(user_1 + " does not exist")
 
+def best_friend_chain(friends_dict):
+    print("Please enter the first user's name: ")
+    user_1 = input()
+    print("Please enter the second user's name: ")
+    user_2 = input()
+
+    
+    # implement dijkstra's
+    visited = [] 
+    unvisited = []
+    distance_vals = {} # store distances as we build potential paths
+
+    # transform weights in friends_dict
+    for user in friends_dict:
+        distance_vals[user] = [sys.maxsize, None]
+        unvisited.append(user)
+        friends = friends_dict[user] # set distance to infinity
+        for friend in friends:
+            weight = friends[friend]
+            friends[friend] = 10 - int(weight)
+    
+    # set user_1 distance to 0
+    distance_vals[user_1] = [0, user_1]
+   
+    print(distance_vals)
+    while user_2 not in visited:
+        # select node with minimum distance from distance_vals
+        min_dist_node = min(distance_vals, key=lambda val: distance_vals[val][0])
+        print(min_dist_node)
+        # calculate distance for adjacent nodes
+        adjacent_nodes = friends_dict[min_dist_node]
+        print(adjacent_nodes)
+        for node in adjacent_nodes:
+            if node in unvisited:
+                dist = distance_vals[min_dist_node] + adjacent_nodes[node]
+                current_best_dist = distance_vals[node][0]
+                if dist < current_best_dist:
+                    distance_vals[node] = [dist, min_dist_node] # update with new distance and previous node
+        # move node from unvisited to visited
+        visited.append(min_dist_node)
+        unvisited.remove(min_dist_node)
+    print(distance_vals)
+
 def main():
     friends_dict = read_file()
     print("Welcome to Friend Net")
     print("What would you like to do? (Enter a number 1-2)")
     print("1. Look up a user")
     print("2. Look up the relationship between two users")
+    print("3. Look up the best friend chain between two users")
     choice = 0
-    while choice < 1 or choice > 2:
+    while choice < 1 or choice > 3:
         try:
             choice = int(input())
             if choice == 1:
                 look_up_user(friends_dict)
             elif choice == 2:
                 look_up_relationship(friends_dict)
+            elif choice == 3:
+                best_friend_chain(friends_dict)
             else:
                 print("Please enter a number 1-2")
         except ValueError:
