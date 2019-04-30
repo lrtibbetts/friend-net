@@ -123,6 +123,20 @@ def best_mutual_friend(friends_dict):
     print("Please enter the second user's name: ")
     user_2 = input()
     if user_1 in friends_dict and user_2 in friends_dict:
+        '''First, we will calculate all mutual friends, i.e. users who are in the friend lists for both users.
+        Second, we will calculate a friendliness sum for each mutual friend (user C). The friendliness sum will be
+        comprised of how much user A likes user C, how much user B likes user C, how much user C likes user A, and
+        how much user C likes user B'''
+        # find all mutual friends
+        mutual_friends = {}
+        for user in friends_dict:
+            if user in friends_dict[user_1] and user in friends_dict[user_2]:
+                # found a mutual friend
+                # calculate "friendliness sum"
+                friendliness = friends_dict[user_1][user] + friends_dict[user_2][user]
+                mutual_friends[user] = friendliness
+        print(mutual_friends)
+
         print("The best mutual friend is: ")
 
     elif user_1 not in friends_dict:
