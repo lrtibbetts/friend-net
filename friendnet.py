@@ -4,7 +4,7 @@ import sys
     Friend Net
     Katrina Baber and Lucy Tibbetts
 
-    Killer feature ideas:
+    Killer features:
     1. Best mutual friend: given two users, user A and user B, find the "best" mutual friend
     
     Algorithm:
