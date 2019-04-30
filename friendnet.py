@@ -70,55 +70,74 @@ def best_friend_chain(friends_dict):
     print("Please enter the second user's name: ")
     user_2 = input()
 
-    # implement dijkstra's
-    # resource: https://medium.com/basecs/finding-the-shortest-path-with-a-little-help-from-dijkstra-613149fbdc8e
-    visited = [] 
-    unvisited = []
-    distance_vals = {} # store distances as we build potential paths
+    if user_1 in friends_dict and user_2 in friends_dict:
+        # implement dijkstra's
+        # resource: https://medium.com/basecs/finding-the-shortest-path-with-a-little-help-from-dijkstra-613149fbdc8e
+        visited = [] 
+        unvisited = []
+        distance_vals = {} # store distances as we build potential paths
 
-    # transform weights in friends_dict
-    for user in friends_dict:
-        distance_vals[user] = [sys.maxsize, None]
-        unvisited.append(user)
-        friends = friends_dict[user] # set distance to infinity
-        for friend in friends:
-            weight = friends[friend]
-            friends[friend] = 10 - int(weight)
+        # transform weights in friends_dict
+        for user in friends_dict:
+            distance_vals[user] = [sys.maxsize, None]
+            unvisited.append(user)
+            friends = friends_dict[user] # set distance to infinity
+            for friend in friends:
+                weight = friends[friend]
+                friends[friend] = 10 - int(weight)
+        
+        # set user_1 distance to 0
+        distance_vals[user_1] = [0, user_1]
     
-    # set user_1 distance to 0
-    distance_vals[user_1] = [0, user_1]
-   
-    while user_2 not in visited:
-        # select node with minimum distance from distance_vals
-        min_dist_node = min(filter(lambda val: val in unvisited, distance_vals), 
-        key=lambda val: distance_vals[val][0])
-        # calculate distance for adjacent nodes
-        adjacent_nodes = friends_dict[min_dist_node]
-        for node in adjacent_nodes:
-            if node in unvisited:
-                dist = distance_vals[min_dist_node][0] + adjacent_nodes[node]
-                current_best_dist = distance_vals[node][0]
-                if dist < current_best_dist:
-                    distance_vals[node] = [dist, min_dist_node] # update with new distance and previous node
-        # move node from unvisited to visited
-        visited.append(min_dist_node)
-        unvisited.remove(min_dist_node)
+        while user_2 not in visited:
+            # select node with minimum distance from distance_vals
+            min_dist_node = min(filter(lambda val: val in unvisited, distance_vals), 
+            key=lambda val: distance_vals[val][0])
+            # calculate distance for adjacent nodes
+            adjacent_nodes = friends_dict[min_dist_node]
+            for node in adjacent_nodes:
+                if node in unvisited:
+                    dist = distance_vals[min_dist_node][0] + adjacent_nodes[node]
+                    current_best_dist = distance_vals[node][0]
+                    if dist < current_best_dist:
+                        distance_vals[node] = [dist, min_dist_node] # update with new distance and previous node
+            # move node from unvisited to visited
+            visited.append(min_dist_node)
+            unvisited.remove(min_dist_node)
 
-    # based on data stored in distance_vals, construct 'best friend chain'
-    path = [user_2]
-    current_user = user_2
-    while current_user != user_1:
-        current_user = distance_vals[current_user][1]
-        path.append(current_user)
-    print("Best friend chain: " + str(path))
+        # based on data stored in distance_vals, construct 'best friend chain'
+        path = [user_2]
+        current_user = user_2
+        while current_user != user_1:
+            current_user = distance_vals[current_user][1]
+            path.append(current_user)
+        print("Best friend chain: " + str(path))
+    elif user_1 not in friends_dict:
+        print(user_1 + " is not a valid user")
+    elif user_2 not in friends_dict:
+        print(user_2 + " is not a valid user")
 
 def best_mutual_friend(friends_dict):
-    print("Please enter a user's name: ")
-    user = input()
+    print("Please enter the first user's name: ")
+    user_1 = input()
+    print("Please enter the second user's name: ")
+    user_2 = input()
+    if user_1 in friends_dict and user_2 in friends_dict:
+        print("The best mutual friend is: ")
+
+    elif user_1 not in friends_dict:
+        print(user_1 + " is not a valid user")
+    elif user_2 not in friends_dict:
+        print(user_2 + " is not a valid user")
     
 def user_connections(friends_dict):
     print("Please enter a user's name: ")
     user = input()
+    if user in friends_dict:
+        print(user + " has the following connections:")
+
+    else:
+        print(user + " is not a valid user")
 
 def main():
     friends_dict = read_file()
