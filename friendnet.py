@@ -123,21 +123,28 @@ def best_mutual_friend(friends_dict):
     print("Please enter the second user's name: ")
     user_2 = input()
     if user_1 in friends_dict and user_2 in friends_dict:
-        '''First, we will calculate all mutual friends, i.e. users who are in the friend lists for both users.
-        Second, we will calculate a friendliness sum for each mutual friend (user C). The friendliness sum will be
-        comprised of how much user A likes user C, how much user B likes user C, how much user C likes user A, and
-        how much user C likes user B'''
         # find all mutual friends
         mutual_friends = {}
         for user in friends_dict:
             if user in friends_dict[user_1] and user in friends_dict[user_2]:
                 # found a mutual friend
-                # calculate "friendliness sum"
-                friendliness = friends_dict[user_1][user] + friends_dict[user_2][user]
+                # calculate "friendliness sum": comprised of how much user A likes user C, 
+                # how much user B likes user C, how much user C likes user A, and
+                # how much user C likes user B
+                friendliness = int(friends_dict[user_1][user]) + int(friends_dict[user_2][user]) 
+                if user_1 in friends_dict[user]:
+                    friendliness += int(friends_dict[user][user_1])
+                if user_2 in friends_dict[user]:    
+                    friendliness += int(friends_dict[user][user_2])
                 mutual_friends[user] = friendliness
-        print(mutual_friends)
-
-        print("The best mutual friend is: ")
+        if len(mutual_friends) == 0:
+            # no mutual friends
+            print(user_1 + " and " + user_2 + " have no mutual friends :(")
+        else:
+            # find user with the highest "friendliness sum"
+            print(mutual_friends)
+            best_mutual_friend = max(mutual_friends, key=mutual_friends.get)
+            print("The best mutual friend is: " + best_mutual_friend)
 
     elif user_1 not in friends_dict:
         print(user_1 + " is not a valid user")

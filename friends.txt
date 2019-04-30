@@ -28,6 +28,7 @@ Gavroche Courfeyrac 10
 Gavroche Marius 7
 Gavroche Enjolras 7
 Gavroche Grantaire 6
+Gavroche Eponine 7
 Enjolras Marius 8
 Enjolras Eponine 6
 Enjolras Grantaire 5
