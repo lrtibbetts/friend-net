@@ -4,16 +4,6 @@ import sys
     Friend Net
     Katrina Baber and Lucy Tibbetts
 
-    Best Friend Chain idea
-    Idea from Dr. Schroeder:
-    1. Convert weights, e.g. 10 minus the weight
-    2. Use Dijkstra's
-
-    Our initial idea:
-    1. Convert graph to DAG
-    2. Negate all weights
-    3. Run shortest path algorithm (probably Dijkstra's)
-
     Killer feature ideas:
     1. Best mutual friend: given two users, user A and user B, find the "best" mutual friend
     
@@ -98,7 +88,6 @@ def best_friend_chain(friends_dict):
     # set user_1 distance to 0
     distance_vals[user_1] = [0, user_1]
    
-    # TODO: modify algorithm to handle the case where a path doesn't exist
     while user_2 not in visited:
         # select node with minimum distance from distance_vals
         min_dist_node = min(filter(lambda val: val in unvisited, distance_vals), 
@@ -123,15 +112,25 @@ def best_friend_chain(friends_dict):
         path.append(current_user)
     print("Best friend chain: " + str(path))
 
+def best_mutual_friend(friends_dict):
+    print("Please enter a user's name: ")
+    user = input()
+    
+def user_connections(friends_dict):
+    print("Please enter a user's name: ")
+    user = input()
+
 def main():
     friends_dict = read_file()
     print("Welcome to Friend Net")
-    print("What would you like to do? (Enter a number 1-2)")
+    print("What would you like to do? (Enter a number 1-5)")
     print("1. Look up a user")
     print("2. Look up the relationship between two users")
     print("3. Look up the best friend chain between two users")
+    print("4. Find the 'best mutual friend' between two users")
+    print("5. View a user's 'connections'")
     choice = 0
-    while choice < 1 or choice > 3:
+    while choice < 1 or choice > 5:
         try:
             choice = int(input())
             if choice == 1:
@@ -140,6 +139,10 @@ def main():
                 look_up_relationship(friends_dict)
             elif choice == 3:
                 best_friend_chain(friends_dict)
+            elif choice == 4:
+                best_mutual_friend(friends_dict)
+            elif choice == 5:
+                user_connections(friends_dict)
             else:
                 print("Please enter a number 1-2")
         except ValueError:
