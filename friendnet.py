@@ -156,6 +156,65 @@ def user_connections(friends_dict):
     user = input()
     if user in friends_dict:
         print(user + " has the following connections:")
+        # use djikstra's to find shortest path to every other user
+        user_paths = {}
+        for other_user in friends_dict:
+            visited = [] 
+            unvisited = []
+            distance_vals = {} # store distances as we build potential paths
+
+            for person in friends_dict:
+                distance_vals[person] = [sys.maxsize, None] # set distance to infinity
+                unvisited.append(person)
+
+            # set user distance to 0
+            distance_vals[user] = [0, user]
+            while other_user not in visited:
+                # select node with minimum distance from distance_vals
+                min_dist_node = min(filter(lambda val: val in unvisited, distance_vals), 
+                key=lambda val: distance_vals[val][0])
+                # calculate distance for adjacent nodes
+                adjacent_nodes = friends_dict[min_dist_node]
+                for node in adjacent_nodes:
+                    if node in unvisited:
+                        dist = distance_vals[min_dist_node][0] + int(adjacent_nodes[node])
+                        current_best_dist = distance_vals[node][0]
+                        if dist < current_best_dist:
+                            distance_vals[node] = [dist, min_dist_node] # update with new distance and previous node
+                # move node from unvisited to visited
+                visited.append(min_dist_node)
+                unvisited.remove(min_dist_node)
+
+            # based on data stored in distance_vals, construct the shortest path
+            path = [other_user]
+            current_user = other_user
+            while current_user != user:
+                current_user = distance_vals[current_user][1]
+                path.append(current_user)
+            user_paths[other_user] = path
+
+        path_lengths = {}
+        # determine path lengths, e.g. 1st, 2nd, and 3rd connections
+        for user in user_paths:
+            path = user_paths[user]
+            if len(path) > 1:
+                # path to another user
+                path_lengths[user] = len(path) - 1
+
+        # group by path length 
+        grouped_users = {}
+        for user in path_lengths:
+            path_length = path_lengths[user]
+            if path_length in grouped_users:
+                users = grouped_users[path_length]
+                users.append(user)
+                grouped_users[path_length] = users
+            else:
+                grouped_users[path_length] = [user]
+
+        # print out grouped "connections"
+        for group in sorted(grouped_users):
+            print("Level " + str(group) + " connections: " + str(grouped_users[group]))
 
     else:
         print(user + " is not a valid user")
