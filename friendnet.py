@@ -1,4 +1,5 @@
 import sys
+import copy
 
 '''
     Friend Net
@@ -142,7 +143,6 @@ def best_mutual_friend(friends_dict):
             print(user_1 + " and " + user_2 + " have no mutual friends :(")
         else:
             # find user with the highest "friendliness sum"
-            print(mutual_friends)
             best_mutual_friend = max(mutual_friends, key=mutual_friends.get)
             print("The best mutual friend is: " + best_mutual_friend)
 
@@ -222,14 +222,15 @@ def user_connections(friends_dict):
 def main():
     friends_dict = read_file()
     print("Welcome to Friend Net")
-    print("What would you like to do? (Enter a number 1-5)")
-    print("1. Look up a user")
-    print("2. Look up the relationship between two users")
-    print("3. Look up the best friend chain between two users")
-    print("4. Find the 'best mutual friend' between two users")
-    print("5. View a user's 'connections'")
     choice = 0
-    while choice < 1 or choice > 5:
+    while choice != 6:
+        print("What would you like to do? (Enter a number 1-6)")
+        print("1. Look up a user")
+        print("2. Look up the relationship between two users")
+        print("3. Look up the best friend chain between two users")
+        print("4. Find the 'best mutual friend' between two users")
+        print("5. View a user's 'connections'")
+        print("6. Quit")
         try:
             choice = int(input())
             if choice == 1:
@@ -237,15 +238,19 @@ def main():
             elif choice == 2:
                 look_up_relationship(friends_dict)
             elif choice == 3:
-                best_friend_chain(friends_dict)
+                friends_dict_copy = copy.deepcopy(friends_dict)
+                best_friend_chain(friends_dict_copy) # pass a deep copy
             elif choice == 4:
                 best_mutual_friend(friends_dict)
             elif choice == 5:
                 user_connections(friends_dict)
+            elif choice == 6:
+                break
             else:
-                print("Please enter a number 1-2")
+                print("Please enter a number 1-6")
+            print() # print empty space
         except ValueError:
-            print("Please enter a number 1-2")
+            print("Please enter a number 1-6")
 
 if __name__ == "__main__":
     main()
