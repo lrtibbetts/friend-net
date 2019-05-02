@@ -238,8 +238,9 @@ def main():
             elif choice == 2:
                 look_up_relationship(friends_dict)
             elif choice == 3:
+                # copy the dictionary because we will be transforming values
                 friends_dict_copy = copy.deepcopy(friends_dict)
-                best_friend_chain(friends_dict_copy) # pass a deep copy
+                best_friend_chain(friends_dict_copy)
             elif choice == 4:
                 best_mutual_friend(friends_dict)
             elif choice == 5:
